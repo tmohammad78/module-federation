@@ -4,14 +4,13 @@ import { useHistory } from "react-router-dom";
 
 const Auth = () => {
   const ref = useRef(null);
-  // const history = useHistory();
+  const history = useHistory();
 
   useEffect(() => {
     mount(ref.current);
     const { onParentNavigate } = mount(ref.current);
-    console.log(onParentNavigate);
-    // history.listen(onParentNavigate);
-  }, []);
+    history.listen(onParentNavigate);
+  }, [history]);
 
   return <div ref={ref} />;
 };
