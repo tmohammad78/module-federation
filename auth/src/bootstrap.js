@@ -1,17 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { createBrowserHistory } from "history";
-
+import history from "./utils/history";
 const mount = (el) => {
-  const history = createBrowserHistory();
-
   ReactDOM.render(<App />, el);
 
   return {
     onParentNavigate({ pathname: nextPathname }) {
       const { pathname } = history.location;
-      console.log(pathname, nextPathname);
       if (pathname !== nextPathname) {
         history.push(nextPathname);
       }

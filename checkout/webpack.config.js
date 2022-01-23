@@ -1,50 +1,27 @@
+const webpack = require("webpack");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const mf = require("@angular-architects/module-federation/webpack");
-const path = require("path");
-
-const share = mf.share;
-
-const sharedMappings = new mf.SharedMappings();
 
 module.exports = {
   output: {
     publicPath: "http://localhost:8083/",
+    uniqueName: "checkout",
+  },
+  optimization: {
+    runtimeChunk: false,
   },
   plugins: [
     new ModuleFederationPlugin({
-      library: { type: "module" },
       name: "checkout",
       filename: "remoteEntry.js",
       exposes: {
-        "./Checkout": "./src/app/checkout/checkout.module.ts",
+        "./Checkout": "./src/bootstrap.js",
       },
-      shared: share({
-        "@angular/core": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-        "@angular/common": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-        "@angular/router": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-        "@angular/common/http": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-
-        // Uncomment for sharing lib of an Angular CLI or Nx workspace
-        ...sharedMappings.getDescriptors(),
-      }),
+      shared: {
+        "@angular/core": { singleton: true, eager: true },
+        "@angular/common": { singleton: true, eager: true },
+        "@angular/router": { singleton: true, eager: true },
+        "@ngxs/store": { singleton: true, eager: true },
+      },
     }),
-    // Uncomment for sharing lib of an Angular CLI or Nx workspace
-    sharedMappings.getPlugin(),
   ],
 };

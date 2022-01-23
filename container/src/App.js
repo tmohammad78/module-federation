@@ -1,30 +1,29 @@
-import React, { useState, useCallback, useEffect } from "react";
-import Auth from "./components/auth";
-import Home from "./pages/home";
+import React, { useCallback, useEffect } from "react";
 import { Route, Switch, Router, Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import AppPanel from "./components/app";
-import "./App.css";
-import Checkout from "./components/checkout";
 import { useData } from "./context/userData";
+import Home from "./pages/home";
+import AppPanel from "./components/app";
+import Auth from "./components/auth";
+import "./App.css";
 
 const history = createBrowserHistory();
 
 function App() {
   const { state, dispatch } = useData();
-  const handleNewMessage = useCallback((event) => {
-    if (event?.detail) {
-      console.log();
-      if (event.detail.action === "auth") {
-        console.log(event.detail.value);
+
+  const handleNewMessage = useCallback(
+    (event) => {
+      if (event?.detail && event.detail.action === "auth") {
         dispatch({
           type: "auth",
-          data: { ...event.detail.value },
+          data: event.detail.value,
         });
         history.push("/app");
       }
-    }
-  }, []);
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     window.addEventListener("message", handleNewMessage);
@@ -33,6 +32,7 @@ function App() {
       window.removeEventListener("message", handleNewMessage);
     };
   }, [handleNewMessage]);
+
   return (
     <Router history={history}>
       <div className="App">
@@ -44,9 +44,6 @@ function App() {
             <li>
               <Link to="/app">App vue</Link>
             </li>
-            <li>
-              <Link to="/checkout">Checkout svelte</Link>
-            </li>
           </ul>
           {state?.auth?.username && (
             <div>Username is: {state?.auth?.username}</div>
@@ -56,7 +53,6 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/app" component={AppPanel} />
           <Route path="/auth" component={Auth} />
-          <Route path="/checkout" component={Checkout} />
         </Switch>
       </div>
     </Router>

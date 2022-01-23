@@ -29,6 +29,7 @@
 .header {
   display: flex;
   align-items: center;
+  background-color: #dadada;
 }
 
 .list {
@@ -37,4 +38,7 @@
 .list > li {
   display: inline-block;
   padding: 10px;
+}
+a {
+  text-decoration: none;
 }
