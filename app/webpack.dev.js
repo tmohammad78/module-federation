@@ -22,14 +22,6 @@ const devConfig = {
         "./App": "./src/bootstrap",
       },
       shared: deps,
-      // {
-      //   ...deps,
-      //   vue: {
-      //     eager: true,
-      //     singleton: true,
-      //     requiredVersion: deps.vue,
-      //   },
-      // },
     }),
   ],
 };

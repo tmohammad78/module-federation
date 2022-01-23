@@ -19,6 +19,7 @@ const devConfig = {
       remotes: {
         auth: "auth@http://localhost:8081/remoteEntry.js",
         app: "app@http://localhost:8082/remoteEntry.js",
+        // checkout: "checkout@http://localhost:8083/remoteEntry.js",
       },
       shared: deps,
     }),
