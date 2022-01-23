@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
-    This is App vue
-    
+    This is App vue hello {{ username }}
   </div>
 </template>
 
@@ -13,6 +12,32 @@ export default {
   name: "App",
   components: {
     HelloWorld,
+  },
+  props: {
+    username: "",
+  },
+  computed: {
+    updateUsername: {
+      get() {
+        return this.username;
+      },
+      set(value) {
+        this.setValue(value);
+      },
+    },
+  },
+  methods: {
+    setValue(value) {
+      this.$emit("", value);
+    },
+  },
+  mounted: () => {
+    window.addEventListener("message", (event) => {
+      if (event?.detail && event.detail.action === "auth") {
+        console.log(event.detail.value.username);
+        this.username = event.detail.value.username || "";
+      }
+    });
   },
 };
 </script>

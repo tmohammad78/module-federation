@@ -3,7 +3,6 @@ import * as React from "react";
 const DataContext = React.createContext();
 
 function dataReducer(state, action) {
-  console.log(action, state);
   switch (action.type) {
     case "auth": {
       return {
